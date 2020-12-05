@@ -10,11 +10,11 @@
 int gameScreen = 0;
 
 // color variables
-color backgroundC = #F5E95B;
-color hellblau = #59F0E6;
-color lila = #8D65F0;
-color orange = #F07435;
-color yellow = #F5E95B;
+color backgroundC = #EDF6F9;
+color middlebluegreen = #83C5BE;
+color ming = #006D77;
+color unbleachedsilk = #FFDDD2;
+color darksalmon = #E29578;
 
 // button variables
 MenueButton PvCOM_Play, PvP_Play;
@@ -27,15 +27,14 @@ float button2PosY;
 void setup () {
   size(500, 500);
   //fullScreen();
-  
+
   // window standard settings
-  background(backgroundC);
   textAlign(CENTER);
   rectMode(CENTER);
-  
-  PvCOM_Play = new MenueButton(width/2, height*0.4, width/2, height * 0.15, "Player versus COM", orange);
-  PvP_Play = new MenueButton(width/2, height*0.6, width/2, height * 0.15, "Player versus Player", orange);
-  
+
+  PvCOM_Play = new MenueButton(width/2, height*0.4, width/2, height * 0.15, "Player versus COM", middlebluegreen);
+  PvP_Play = new MenueButton(width/2, height*0.6, width/2, height * 0.15, "Player versus Player", darksalmon);
+
   buttonWidth = width / 2;
   button1PosY = height * 0.4;
   button2PosY = height * 0.6;
@@ -44,33 +43,38 @@ void setup () {
 /********* DRAW BLOCK *********/
 void draw () {
   switch(gameScreen) {
-    case 0:
-      menueScreen();
-    case 1:
-      PvCOM_Screen();
-    case 2:
-      PvCOM_GameOver_Screen();
-    case 3:
-      PvP_Screen();
-    case 4:
-      PvP_GameOver_Screen();
+  case 0:
+    menueScreen();
+  case 1:
+    PvCOM_Screen();
+  case 2:
+    PvCOM_GameOver_Screen();
+  case 3:
+    PvP_Screen();
+  case 4:
+    PvP_GameOver_Screen();
   }
 }
 
 /********* SCREEN CONTENTS *********/
 
 void menueScreen() {
-  // code of menue Screen
-  textSize(60);
-  fill(0);
-  text("Prime Game", width/2, height * 0.2);
+  if (gameScreen == 0) {
+    background(backgroundC);
   
-  PvCOM_Play.drawButton();
-  PvP_Play.drawButton();
+    textSize(60);
+    fill(0);
+    text("Prime Game", width/2, height * 0.2);
+  
+    PvCOM_Play.drawButton();
+    PvP_Play.drawButton();
+  }
 }
 
 void PvCOM_Screen() {
-  // code of PvCOM Screen 
+  if (gameScreen == 1) {
+    background(backgroundC);
+  }
 }
 
 void PvCOM_GameOver_Screen() {
@@ -78,7 +82,9 @@ void PvCOM_GameOver_Screen() {
 }
 
 void PvP_Screen() {
-  // code of PvP Screen
+    if (gameScreen == 3) {
+    background(backgroundC);
+  }
 }
 
 void PvP_GameOver_Screen() {
@@ -91,9 +97,21 @@ public void mousePressed() {
   // if we are on the specified screen when clicked call this code
   switch(gameScreen) {
     case 0:
-      //
+      if (mouseX > (PvCOM_Play.x-PvCOM_Play._width/2) && mouseX < (PvCOM_Play.x+PvCOM_Play._width/2)
+        && mouseY > (PvCOM_Play.y-PvCOM_Play._height/2) && mouseY < (PvCOM_Play.y+PvCOM_Play._height/2)) 
+        {
+        // change to Screen 1  
+        gameScreen = 1;
+        
+      } else if (mouseX > (PvP_Play.x-PvP_Play._width/2) && mouseX < (PvP_Play.x+PvP_Play._width/2)
+        && mouseY > (PvP_Play.y-PvP_Play._height/2) && mouseY < (PvP_Play.y+PvP_Play._height/2)) 
+        {
+        // change to Screen 1  
+        gameScreen = 3;
+        
+      }
     case 1:
-      //
+        //
     case 2:
       //
     case 3:
