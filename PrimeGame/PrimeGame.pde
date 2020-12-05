@@ -99,14 +99,12 @@ public void mousePressed() {
   // if we are on the specified screen when clicked call this code
   switch(gameScreen) {
     case 0:
-      if (mouseX > (PvCOM_Play.x-PvCOM_Play._width/2) && mouseX < (PvCOM_Play.x+PvCOM_Play._width/2)
-        && mouseY > (PvCOM_Play.y-PvCOM_Play._height/2) && mouseY < (PvCOM_Play.y+PvCOM_Play._height/2)) 
+      if (onPvCOMButton()) 
         {
         // change to Screen 1  
         gameScreen = 1;
         
-      } else if (mouseX > (PvP_Play.x-PvP_Play._width/2) && mouseX < (PvP_Play.x+PvP_Play._width/2)
-        && mouseY > (PvP_Play.y-PvP_Play._height/2) && mouseY < (PvP_Play.y+PvP_Play._height/2)) 
+      } else if (onPvPButton()) 
         {
         // change to Screen 1  
         gameScreen = 3;
@@ -124,3 +122,13 @@ public void mousePressed() {
 }
 
 /********* OTHER FUNCTIONS *********/
+
+boolean onPvCOMButton () {
+  return mouseX > (PvCOM_Play.x-PvCOM_Play._width/2) && mouseX < (PvCOM_Play.x+PvCOM_Play._width/2)
+        && mouseY > (PvCOM_Play.y-PvCOM_Play._height/2) && mouseY < (PvCOM_Play.y+PvCOM_Play._height/2);
+}
+
+boolean onPvPButton () {
+  return mouseX > (PvP_Play.x-PvP_Play._width/2) && mouseX < (PvP_Play.x+PvP_Play._width/2)
+        && mouseY > (PvP_Play.y-PvP_Play._height/2) && mouseY < (PvP_Play.y+PvP_Play._height/2);
+}
