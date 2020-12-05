@@ -1,4 +1,4 @@
-class MenueButton {
+public class MenueButton {
   float x=0, y=0, _width=0, _height=0;
   String label;
   color buttonColor;
