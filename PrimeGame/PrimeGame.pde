@@ -9,6 +9,14 @@
 
 int gameScreen = 0;
 
+// color variables
+color backgroundC = #F5E95B;
+color hellblau = #59F0E6;
+color lila = #8D65F0;
+color orange = #F07435;
+color yellow = #F5E95B;
+
+
 /********* SETUP BLOCK *********/
 
 void setup () {
@@ -35,7 +43,12 @@ void draw () {
 
 void menueScreen() {
   // code of menue Screen
+  textSize(35);
+  fill(0);
+  text("Prime Game", width/2, height*0.2);
   
+  fill(hellblau);
+  rect(width/2, height*0.4, width/2, height*0.08);
 }
 
 void PvCOM_Screen() {
