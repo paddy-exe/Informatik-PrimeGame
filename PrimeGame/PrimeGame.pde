@@ -21,6 +21,11 @@ color yellow = #F5E95B;
 
 void setup () {
   size(500, 500);
+  
+  // window standard settings
+  background(backgroundC);
+  textAlign(CENTER);
+  rectMode(CENTER);
 }
 
 /********* DRAW BLOCK *********/
@@ -48,7 +53,7 @@ void menueScreen() {
   text("Prime Game", width/2, height*0.2);
   
   fill(hellblau);
-  rect(width/2, height*0.4, width/2, height*0.08);
+  rect(width/2, height*0.4, width/2, height*0.15);
 }
 
 void PvCOM_Screen() {
