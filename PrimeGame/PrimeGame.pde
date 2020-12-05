@@ -22,6 +22,8 @@ float buttonWidth;
 float button1PosY;
 float button2PosY;
 
+PImage backButton;
+
 /********* SETUP BLOCK *********/
 
 void setup () {
@@ -31,13 +33,12 @@ void setup () {
   // window standard settings
   textAlign(CENTER);
   rectMode(CENTER);
+  imageMode(CENTER);
 
   PvCOM_Play = new MenueButton(width/2, height*0.4, width/2, height * 0.15, "Player versus COM", middlebluegreen);
   PvP_Play = new MenueButton(width/2, height*0.6, width/2, height * 0.15, "Player versus Player", darksalmon);
 
-  buttonWidth = width / 2;
-  button1PosY = height * 0.4;
-  button2PosY = height * 0.6;
+  backButton = loadImage("Back_Button.png");
 }
 
 /********* DRAW BLOCK *********/
@@ -74,6 +75,7 @@ void menueScreen() {
 void PvCOM_Screen() {
   if (gameScreen == 1) {
     background(backgroundC);
+    image(backButton,25,25,50,50);
   }
 }
 
