@@ -2,6 +2,7 @@ public class MenueButton {
   float x=0, y=0, _width=0, _height=0;
   String label;
   color buttonColor;
+  
 
   MenueButton(float x, float y, float _width, float _height, String label, color buttonColor) {
     this.x = x;
@@ -12,13 +13,13 @@ public class MenueButton {
     this.buttonColor = buttonColor;
   }
 
-  void drawButton() {
-    rectMode(CENTER);
+  void drawButton(int drawFrom, int txtSize, int txtFrom, float textX, float textY, color textColor) {
+    rectMode(drawFrom);
     fill(buttonColor);
     rect(x, y, _width, _height);
-    textAlign(CENTER, CENTER);
-    textSize(20);
-    fill(0);
-    text(label, x, y);
+    textAlign(txtFrom, CENTER);
+    textSize(txtSize);
+    fill(textColor);
+    text(label, textX, textY);
   }
 }
