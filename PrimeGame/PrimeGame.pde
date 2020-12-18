@@ -42,38 +42,41 @@ void draw () {
   switch(gameScreen) {
   case 0:
     menueScreen();
+    break;
   case 1:
     PvCOM_Screen();
+    break;
   case 2:
     PvCOM_GameOver_Screen();
+    break;
   case 3:
     PvP_Screen();
+    break;
   case 4:
     PvP_GameOver_Screen();
+    break;
   }
 }
 
 /********* SCREEN CONTENTS *********/
 
 void menueScreen() {
-  if (gameScreen == 0) {
-    background(backgroundC);
-  
-    textSize(60);
-    fill(0);
-    text("Prime Game", width/2, height * 0.2);
-  
-    PvCOM_Play.drawButton(CENTER, 20, CENTER, PvCOM_Play.x, PvCOM_Play.y, 0);
-    PvP_Play.drawButton(CENTER, 20, CENTER, PvP_Play.x, PvP_Play.y, 0);
-  }
+  background(backgroundC);
+
+  textSize(60);
+  fill(0);
+  text("Prime Game", width/2, height * 0.2);
+
+  PvCOM_Play.drawButton(CENTER, 20, CENTER, PvCOM_Play.x, PvCOM_Play.y, 0);
+  PvP_Play.drawButton(CENTER, 20, CENTER, PvP_Play.x, PvP_Play.y, 0);
 }
 
 void PvCOM_Screen() {
-  if (gameScreen == 1) {
-    background(backgroundC);
-    
-    backButton.drawButton(CORNER,15,CENTER, backButton._width/2, backButton._height/2, 255);
-  }
+
+  background(backgroundC);
+  
+  backButton.drawButton(CORNER,15,CENTER, backButton._width/2, backButton._height/2, 255);
+  
 }
 
 void PvCOM_GameOver_Screen() {
@@ -81,11 +84,9 @@ void PvCOM_GameOver_Screen() {
 }
 
 void PvP_Screen() {
-    if (gameScreen == 3) {
-    background(backgroundC);
-    
-    backButton.drawButton(CORNER,15,CENTER, backButton._width/2, backButton._height/2, 255);
-  }
+  background(backgroundC);
+  
+  backButton.drawButton(CORNER,15,CENTER, backButton._width/2, backButton._height/2, 255);
 }
 
 void PvP_GameOver_Screen() {
@@ -105,13 +106,15 @@ public void mousePressed() {
         // change to Screen 3  
         gameScreen = 3;       
       }
+      break;
     case 1:
-      if (gameScreen == 1) {
-        if (onBackButton()) {
-          // change to Screen 0
-          gameScreen = 0;
-        }
+
+      if (onBackButton()) {
+        // change to Screen 0
+        gameScreen = 0;
       }
+      
+      break;
       
     case 2:
       //
@@ -122,6 +125,7 @@ public void mousePressed() {
           gameScreen = 0;
         }
       }
+      break;
     case 4:
       //
   }
