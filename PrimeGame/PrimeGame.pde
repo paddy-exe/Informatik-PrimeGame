@@ -50,8 +50,9 @@ void setup () {
 
 
   // Einzelfelder
-  feldBreite = width-2*width/20;
-  feldHoehe = height-2*height/18;
+  feldBreite = (width/anzahlFelderY);
+  
+  feldHoehe = (height/anzahlFelderY);
   
   for (int i = 0; i < felderArray.length; i++) {
     for (int j = 0; j < felderArray[i].length; j++) {
@@ -111,9 +112,9 @@ void PvCOM_Screen() {
   for (int i = 0; i < felderArray.length; i++) {
     for (int j = 0; j < felderArray[i].length; j++) {
       fill(255);
-      rect(felderArray[i][j].posX, felderArray[i][j].posY, felderArray[i][j].feldBreite, felderArray[i][j].feldHoehe);
+      rect(felderArray[i][j].posX, felderArray[i][j].posY, feldBreite, feldHoehe);
       fill(0);
-      text(felderArray[i][j].label, felderArray[i][j].posX + felderArray[i][j].feldBreite/2, felderArray[i][j].posY);
+      text(felderArray[i][j].label, felderArray[i][j].posX + feldBreite/2, felderArray[i][j].posY+ feldHoehe/2+5);
     }
   }
 }
