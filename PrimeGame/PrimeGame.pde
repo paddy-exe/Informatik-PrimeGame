@@ -26,8 +26,8 @@ final int anzahlFelderX = 10;
 final int anzahlFelderY = 12;
 final int felderGesamt = anzahlFelderX * anzahlFelderY;
 
-float feldBreite = width-2*width/8;
-float feldHoehe = height-2*height/6;
+float feldBreite;
+float feldHoehe;
 
 Einzelfeld[][] felderArray = new Einzelfeld[anzahlFelderX][anzahlFelderY];
 
@@ -48,10 +48,16 @@ void setup () {
   rectMode(CORNER);
   backButton = new MenueButton(0, 0, width*0.15, height*0.05, "Back", ming);
 
+
+  // Einzelfelder
+  feldBreite = width-2*width/20;
+  feldHoehe = height-2*height/18;
+  
   for (int i = 0; i < felderArray.length; i++) {
     for (int j = 0; j < felderArray[i].length; j++) {
-      felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i), laufVariable, str(laufVariable));
-      println();
+      felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i)+80, laufVariable, str(laufVariable));
+      print(felderArray[i][j].index);
+      print(" ");
       laufVariable++;
     }
   }
@@ -97,6 +103,19 @@ void PvCOM_Screen() {
   background(backgroundC);
 
   backButton.drawButton(CORNER, 15, CENTER, backButton._width/2, backButton._height/2, 255);
+  
+  
+  rectMode(CORNER);
+  textAlign(CENTER);
+  textSize(12);
+  for (int i = 0; i < felderArray.length; i++) {
+    for (int j = 0; j < felderArray[i].length; j++) {
+      fill(255);
+      rect(felderArray[i][j].posX, felderArray[i][j].posY, felderArray[i][j].feldBreite, felderArray[i][j].feldHoehe);
+      fill(0);
+      text(felderArray[i][j].label, felderArray[i][j].posX + felderArray[i][j].feldBreite/2, felderArray[i][j].posY);
+    }
+  }
 }
 
 void PvCOM_GameOver_Screen() {
