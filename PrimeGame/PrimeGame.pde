@@ -22,14 +22,13 @@ color darksalmon = #E29578;
 MenueButton PvCOM_Play, PvP_Play, backButton;
 
 // Spielfeld variables
-final int anzahlFelderX = 10;
-final int anzahlFelderY = 12;
-final int felderGesamt = anzahlFelderX * anzahlFelderY;
+final int anzahlFelderX = 6;
+final int anzahlFelderY = 6;
 
 float feldBreite;
 float feldHoehe;
 
-Einzelfeld[][] felderArray = new Einzelfeld[anzahlFelderX][anzahlFelderY];
+Einzelfeld[][] felderArray = new Einzelfeld[anzahlFelderY][anzahlFelderX];
 
 /********* SETUP BLOCK *********/
 
@@ -42,27 +41,26 @@ void setup () {
   rectMode(CENTER);
   imageMode(CENTER);
 
+  // buttons
   PvCOM_Play = new MenueButton(width/2, height*0.4, width/2, height * 0.15, "Player versus COM", middlebluegreen);
   PvP_Play = new MenueButton(width/2, height*0.6, width/2, height * 0.15, "Player versus Player", darksalmon);
-
-  rectMode(CORNER);
-  backButton = new MenueButton(0, 0, width*0.15, height*0.05, "Back", ming);
+  backButton = new MenueButton((width*0.15)/2, (height*0.05)/2, width*0.15, height*0.05, "Back", ming);
 
 
   // Einzelfelder
-  feldBreite = (width/anzahlFelderY);
+  feldBreite = (width/anzahlFelderX * 0.8);
   
-  feldHoehe = (height/anzahlFelderY);
+  feldHoehe = (height/anzahlFelderY * 0.8);
   
+  // Felderstellung
   for (int i = 0; i < felderArray.length; i++) {
     for (int j = 0; j < felderArray[i].length; j++) {
-      felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i)+80, laufVariable, str(laufVariable));
+      felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable));
       print(felderArray[i][j].index);
       print(" ");
       laufVariable++;
     }
   }
-  
 }
 
 /********* DRAW BLOCK *********/
@@ -103,18 +101,18 @@ void PvCOM_Screen() {
 
   background(backgroundC);
 
-  backButton.drawButton(CORNER, 15, CENTER, backButton._width/2, backButton._height/2, 255);
+  backButton.drawButton(CENTER, 15, CENTER, backButton.x, backButton.y, 255);
   
   
   rectMode(CORNER);
   textAlign(CENTER);
   textSize(12);
+  
+  // zeichnet alle Einzelfelder
   for (int i = 0; i < felderArray.length; i++) {
     for (int j = 0; j < felderArray[i].length; j++) {
-      fill(255);
-      rect(felderArray[i][j].posX, felderArray[i][j].posY, feldBreite, feldHoehe);
-      fill(0);
-      text(felderArray[i][j].label, felderArray[i][j].posX + feldBreite/2, felderArray[i][j].posY+ feldHoehe/2+5);
+      
+      felderArray[i][j].draw(felderArray[i][j].posX,felderArray[i][j].posY,feldBreite,feldHoehe,felderArray[i][j].label);
     }
   }
 }
@@ -126,7 +124,7 @@ void PvCOM_GameOver_Screen() {
 void PvP_Screen() {
   background(backgroundC);
 
-  backButton.drawButton(CORNER, 15, CENTER, backButton._width/2, backButton._height/2, 255);
+  backButton.drawButton(CENTER, 15, CENTER, backButton.x, backButton.y, 255);
 }
 
 void PvP_GameOver_Screen() {
@@ -139,17 +137,17 @@ public void mousePressed() {
   // if we are on the specified screen when clicked call this code
   switch(gameScreen) {
   case 0:
-    if (onPvCOMButton()) {
+    if (PvCOM_Play.onButton()) {
       // change to Screen 1  
       gameScreen = 1;
-    } else if (onPvPButton()) {
+    } else if (PvP_Play.onButton()) {
       // change to Screen 3  
       gameScreen = 3;
     }
     break;
   case 1:
 
-    if (onBackButton()) {
+    if (backButton.onButton()) {
       // change to Screen 0
       gameScreen = 0;
     }
@@ -160,7 +158,7 @@ public void mousePressed() {
     //
   case 3:
     if (gameScreen == 3) {
-      if (onBackButton()) {
+      if (backButton.onButton()) {
         // change to Screen 0
         gameScreen = 0;
       }
@@ -173,18 +171,3 @@ public void mousePressed() {
 
 
 /********* OTHER FUNCTIONS *********/
-
-boolean onPvCOMButton () {
-  return mouseX > (PvCOM_Play.x-PvCOM_Play._width/2) && mouseX < (PvCOM_Play.x+PvCOM_Play._width/2)
-    && mouseY > (PvCOM_Play.y-PvCOM_Play._height/2) && mouseY < (PvCOM_Play.y+PvCOM_Play._height/2);
-}
-
-boolean onPvPButton () {
-  return mouseX > (PvP_Play.x-PvP_Play._width/2) && mouseX < (PvP_Play.x+PvP_Play._width/2)
-    && mouseY > (PvP_Play.y-PvP_Play._height/2) && mouseY < (PvP_Play.y+PvP_Play._height/2);
-}
-
-
-boolean onBackButton () {
-  return mouseX < (backButton.x+backButton._width) && mouseY < (backButton.y+backButton._height);
-}
