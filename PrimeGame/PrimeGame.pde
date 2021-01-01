@@ -1,3 +1,6 @@
+// importiert Bib um Dialoge zu erstellen
+import javax.swing.JOptionPane;
+
 // Informatik-Projektarbeit
 
 // gameScreen variable kontrolliert welcher Screen dargestellt werden soll
@@ -22,13 +25,19 @@ color darksalmon = #E29578;
 MenueButton PvCOM_Play, PvP_Play, backButton;
 
 // Spielfeld variables
-final int anzahlFelderX = 6;
-final int anzahlFelderY = 6;
+int anzahlFelderX = 6;
+int anzahlFelderY = 6;
 
 float feldBreite;
 float feldHoehe;
 
-Einzelfeld[][] felderArray = new Einzelfeld[anzahlFelderY][anzahlFelderX];
+// Spielfeld
+Einzelfeld[][] felderArray;
+boolean spielfeldErstellt = false;
+
+// InputDialoge
+String xInput;
+String yInput;
 
 /********* SETUP BLOCK *********/
 
@@ -42,8 +51,8 @@ void setup () {
   imageMode(CENTER);
 
   // buttons
-  PvCOM_Play = new MenueButton(width/2, height*0.4, width/2, height * 0.15, "Player versus COM", middlebluegreen);
-  PvP_Play = new MenueButton(width/2, height*0.6, width/2, height * 0.15, "Player versus Player", darksalmon);
+  PvCOM_Play = new MenueButton(width/2, height*0.35, width/2, height * 0.15, "Player versus COM", middlebluegreen);
+  PvP_Play = new MenueButton(width/2, height*0.55, width/2, height * 0.15, "Player versus Player", darksalmon);
   backButton = new MenueButton((width*0.15)/2, (height*0.05)/2, width*0.15, height*0.05, "Back", ming);
 
 
@@ -52,15 +61,6 @@ void setup () {
   
   feldHoehe = (height/anzahlFelderY * 0.8);
   
-  // Felderstellung
-  for (int i = 0; i < felderArray.length; i++) {
-    for (int j = 0; j < felderArray[i].length; j++) {
-      felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable));
-      print(felderArray[i][j].index);
-      print(" ");
-      laufVariable++;
-    }
-  }
 }
 
 /********* DRAW BLOCK *********/
@@ -91,18 +91,41 @@ void menueScreen() {
 
   textSize(60);
   fill(0);
-  text("Prime Game", width/2, height * 0.2);
+  text("Prime Game", width/2, height * 0.15);
 
   PvCOM_Play.drawButton(CENTER, 20, CENTER, PvCOM_Play.x, PvCOM_Play.y, 0);
   PvP_Play.drawButton(CENTER, 20, CENTER, PvP_Play.x, PvP_Play.y, 0);
+  
+  // FelderAnzahl
+  textSize(18);
+  fill(240,0,0);
+  text("Drücke x oder y, um die unteren Werte zu verändern", width/2, height * 0.7);
+  fill(0);
+  textSize(30);
+  text("Anzahl Felder: " + str(anzahlFelderX * anzahlFelderY), width/2, height * 0.8);
+  textSize(20);
+  text("Anzahl X Felder: " + str(anzahlFelderX), width/2, height * 0.87);
+  text("Anzahl Y Felder: " + str(anzahlFelderY), width/2, height * 0.93);
 }
 
-void PvCOM_Screen() {
-
+public void PvCOM_Screen() {
   background(backgroundC);
 
   backButton.drawButton(CENTER, 15, CENTER, backButton.x, backButton.y, 255);
   
+  if (!spielfeldErstellt) {
+    // Felderstellung
+    Einzelfeld[][] felderArray = new Einzelfeld[anzahlFelderY][anzahlFelderX];
+    
+    for (int i = 0; i < felderArray.length; i++) {
+      for (int j = 0; j < felderArray[i].length; j++) {
+        felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable));
+        laufVariable++;
+      }
+    }
+    
+    spielfeldErstellt = true;
+  }
   
   rectMode(CORNER);
   textAlign(CENTER);
@@ -133,7 +156,7 @@ void PvP_GameOver_Screen() {
 
 /********* INPUTS *********/
 
-public void mousePressed() {
+void mousePressed() {
   // if we are on the specified screen when clicked call this code
   switch(gameScreen) {
   case 0:
@@ -169,5 +192,18 @@ public void mousePressed() {
   }
 }
 
+void keyPressed() {
+  switch(gameScreen) {
+    case 0:
+    if (key == 'x') {
+      xInput = JOptionPane.showInputDialog("Edit x value: ", anzahlFelderX);
+      anzahlFelderX = int(xInput);
+    } else if (key == 'y') {
+      yInput = JOptionPane.showInputDialog("Edit y value: ", anzahlFelderY);
+      anzahlFelderY = int(yInput);
+    }
+    break;
+  }
+}
 
 /********* OTHER FUNCTIONS *********/
