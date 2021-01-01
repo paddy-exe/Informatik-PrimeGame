@@ -55,7 +55,7 @@ void setup () {
   // Felderstellung
   for (int i = 0; i < felderArray.length; i++) {
     for (int j = 0; j < felderArray[i].length; j++) {
-      felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable));
+      felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255);
       print(felderArray[i][j].index);
       print(" ");
       laufVariable++;
@@ -151,18 +151,25 @@ public void mousePressed() {
       // change to Screen 0
       gameScreen = 0;
     }
+    
+    for (int i = 0; i < felderArray.length; i++) {
+      for (int j = 0; j < felderArray[i].length; j++) {
+      
+        if (felderArray[i][j].onButton(feldBreite, feldHoehe)) {
+          felderArray[i][j].rectColor = middlebluegreen;
+        }
+      }
+    }
 
     break;
 
   case 2:
     //
   case 3:
-    if (gameScreen == 3) {
       if (backButton.onButton()) {
         // change to Screen 0
         gameScreen = 0;
       }
-    }
     break;
   case 4:
     //
