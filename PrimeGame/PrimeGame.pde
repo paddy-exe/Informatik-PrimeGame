@@ -30,6 +30,13 @@ float feldHoehe;
 
 Einzelfeld[][] felderArray = new Einzelfeld[anzahlFelderY][anzahlFelderX];
 
+// Spieler Variablen Listen
+ArrayList<Spieler> player;
+//ArrayList<PlayerTwo> player2;
+//ArrayList<COM1> com1;
+//ArrayList<COM2> com2;
+//ArrayList<COM3> com3;
+
 /********* SETUP BLOCK *********/
 
 void setup () {
@@ -145,6 +152,7 @@ public void mousePressed() {
       gameScreen = 3;
     }
     break;
+    
   case 1:
 
     if (backButton.onButton()) {
@@ -171,6 +179,7 @@ public void mousePressed() {
         gameScreen = 0;
       }
     break;
+    
   case 4:
     //
   }
