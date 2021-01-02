@@ -236,15 +236,46 @@ public void mousePressed() {
               felderArray[i][j].taken = true;
               tempOneSpieler.score += felderArray[i][j].index;
               
+              // Faktoren der ausgewählten Zahl
+              IntList tempFaktoren = faktoren(felderArray[i][j].index);
+              
+              for (int k = 0; k < felderArray.length; k++) {
+                  for (int l = 0; l < felderArray[k].length; l++) {
+                      for (int index : tempFaktoren) {
+                        if (felderArray[k][l].index == index) {
+                            felderArray[k][l].taken = true;
+                            felderArray[k][l].rectColor = tempTwoSpieler.playerColor;
+                            tempTwoSpieler.score += felderArray[k][l].index;
+                        }
+                      }
+                  }
+              }
+              
               // overwrite player values
               tempOneSpieler.turn = false;
               tempTwoSpieler.turn = true;
               playerOne.set(0,tempOneSpieler);
               playerTwo.set(0,tempTwoSpieler);
+              
           } else if (tempTwoSpieler.turn && felderArray[i][j].taken == false && felderArray[i][j].onButton(feldBreite,feldHoehe)) {
               felderArray[i][j].rectColor = tempTwoSpieler.playerColor;
               felderArray[i][j].taken = true;
               tempTwoSpieler.score += felderArray[i][j].index;
+              
+              // Faktoren der ausgewählten Zahl
+              IntList tempTwoFaktoren = faktoren(felderArray[i][j].index);
+              
+              for (int k = 0; k < felderArray.length; k++) {
+                  for (int l = 0; l < felderArray[k].length; l++) {
+                      for (int index : tempTwoFaktoren) {
+                        if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
+                            felderArray[k][l].taken = true;
+                            felderArray[k][l].rectColor = tempOneSpieler.playerColor;
+                            tempOneSpieler.score += felderArray[k][l].index;
+                        }
+                      }
+                  }
+              }
               
               // overwrite player values
               tempTwoSpieler.turn = false;
@@ -263,3 +294,14 @@ public void mousePressed() {
 
 
 /********* OTHER FUNCTIONS *********/
+// Returns a List of factors of a given number
+IntList faktoren (int number) {
+  IntList faktoren = new IntList();
+  for (int loopCounter = 1; loopCounter < number; loopCounter++) {
+    // check if remainder of division is 0
+    if (number % loopCounter == 0) {
+      faktoren.append(loopCounter);
+    }
+  }
+  return faktoren;
+}
