@@ -4,7 +4,9 @@ class Einzelfeld {
   String label;
   color rectColor;
   
-  Einzelfeld(float posX, float posY, int index, String label, color rectColor) {
+  boolean taken;
+  
+  Einzelfeld(float posX, float posY, int index, String label, color rectColor, boolean taken) {
     this.posX = posX;
     this.posY = posY;
     
@@ -12,6 +14,8 @@ class Einzelfeld {
     this.label = label;
     
     this.rectColor = rectColor;
+    
+    this.taken = taken;
   }
   
   void draw(float posX, float posY, float feldBreite, float feldHoehe, String label) {
