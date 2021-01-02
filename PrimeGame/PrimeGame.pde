@@ -242,7 +242,7 @@ public void mousePressed() {
               for (int k = 0; k < felderArray.length; k++) {
                   for (int l = 0; l < felderArray[k].length; l++) {
                       for (int index : tempFaktoren) {
-                        if (felderArray[k][l].index == index) {
+                        if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
                             felderArray[k][l].taken = true;
                             felderArray[k][l].rectColor = tempTwoSpieler.playerColor;
                             tempTwoSpieler.score += felderArray[k][l].index;
