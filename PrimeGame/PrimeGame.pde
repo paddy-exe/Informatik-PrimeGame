@@ -242,6 +242,7 @@ public void mousePressed() {
               for (int k = 0; k < felderArray.length; k++) {
                   for (int l = 0; l < felderArray[k].length; l++) {
                       for (int index : tempFaktoren) {
+                        // wenn das Feld nicht belegt ist und der Index des Teilers gleich dessen des Einzelfeldes ist
                         if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
                             felderArray[k][l].taken = true;
                             felderArray[k][l].rectColor = tempTwoSpieler.playerColor;
