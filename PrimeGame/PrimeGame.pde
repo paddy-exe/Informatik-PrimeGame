@@ -23,7 +23,7 @@ MenueButton PvCOM_Play, PvP_Play, backButton;
 
 // Spielfeld variables
 final int anzahlFelderX = 6;
-final int anzahlFelderY = 6;
+final int anzahlFelderY = 7;
 
 float feldBreite;
 float feldHoehe;
