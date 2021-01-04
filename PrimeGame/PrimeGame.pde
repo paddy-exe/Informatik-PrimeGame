@@ -21,7 +21,7 @@ color darksalmon = #E29578;
 // button variables
 MenueButton PvCOM_Play, PvP_Play, backButton;
 
-// Spielfeld variables
+// Spielfeld variables 6x7 = 42;
 final int anzahlFelderX = 6;
 final int anzahlFelderY = 7;
 
