@@ -9,6 +9,8 @@
 
 int gameScreen = 0;
 
+int laufVariable = 1;
+
 // color variables
 color backgroundC = #EDF6F9;
 color middlebluegreen = #83C5BE;
@@ -18,6 +20,20 @@ color darksalmon = #E29578;
 
 // button variables
 MenueButton PvCOM_Play, PvP_Play, backButton;
+
+// Spielfeld variables 6x7 = 42;
+final int anzahlFelderX = 6;
+final int anzahlFelderY = 7;
+
+float feldBreite;
+float feldHoehe;
+
+Einzelfeld[][] felderArray = new Einzelfeld[anzahlFelderY][anzahlFelderX];
+
+// Spieler Liste
+ArrayList<PlayerOne> playerOne = new ArrayList();
+ArrayList<PlayerTwo> playerTwo = new ArrayList();
+
 
 /********* SETUP BLOCK *********/
 
@@ -30,11 +46,26 @@ void setup () {
   rectMode(CENTER);
   imageMode(CENTER);
 
+  // buttons
   PvCOM_Play = new MenueButton(width/2, height*0.4, width/2, height * 0.15, "Player versus COM", middlebluegreen);
   PvP_Play = new MenueButton(width/2, height*0.6, width/2, height * 0.15, "Player versus Player", darksalmon);
+  backButton = new MenueButton((width*0.15)/2, (height*0.05)/2, width*0.15, height*0.05, "Back", ming);
 
-  rectMode(CORNER);
-  backButton = new MenueButton(0, 0, width*0.15, height*0.05, "Back", ming);
+
+  // Einzelfelder
+  feldBreite = (width/anzahlFelderX * 0.8);
+  feldHoehe = (height/anzahlFelderY * 0.8);
+  
+  // Felderstellung
+  for (int i = 0; i < felderArray.length; i++) {
+    for (int j = 0; j < felderArray[i].length; j++) {
+      felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255, false);
+      print(felderArray[i][j].index);
+      print(" ");
+      laufVariable++;
+    }
+  }
+
 }
 
 /********* DRAW BLOCK *********/
@@ -74,8 +105,21 @@ void menueScreen() {
 void PvCOM_Screen() {
 
   background(backgroundC);
+
+  backButton.drawButton(CENTER, 15, CENTER, backButton.x, backButton.y, 255);
   
-  backButton.drawButton(CORNER,15,CENTER, backButton._width/2, backButton._height/2, 255);
+  
+  rectMode(CORNER);
+  textAlign(CENTER);
+  textSize(12);
+  
+  // zeichnet alle Einzelfelder
+  for (int i = 0; i < felderArray.length; i++) {
+    for (int j = 0; j < felderArray[i].length; j++) {
+      
+      felderArray[i][j].draw(felderArray[i][j].posX,felderArray[i][j].posY,feldBreite,feldHoehe,felderArray[i][j].label);
+    }
+  }
   
 }
 
@@ -86,7 +130,30 @@ void PvCOM_GameOver_Screen() {
 void PvP_Screen() {
   background(backgroundC);
   
-  backButton.drawButton(CORNER,15,CENTER, backButton._width/2, backButton._height/2, 255);
+  backButton.drawButton(CENTER, 15, CENTER, backButton.x, backButton.y, 255);
+  
+  rectMode(CORNER);
+  textAlign(CENTER);
+  textSize(12);
+  
+  // zeichnet alle Einzelfelder
+  for (int i = 0; i < felderArray.length; i++) {
+    for (int j = 0; j < felderArray[i].length; j++) {
+      
+      felderArray[i][j].draw(felderArray[i][j].posX,felderArray[i][j].posY,feldBreite,feldHoehe,felderArray[i][j].label);
+    }
+  }
+  
+  rectMode(CENTER);
+  textSize(20);
+  PlayerOne tempOneSpieler = playerOne.get(0);
+  fill(middlebluegreen);
+  text("Spieler 1 Score: " + str(tempOneSpieler.score), width/4, 80);
+  PlayerTwo tempTwoSpieler = playerTwo.get(0);
+  fill(darksalmon);
+  text("Spieler 2 Score: " + str(tempTwoSpieler.score), width / 4 * 3, 80);
+  
+  fill(0);
 }
 
 void PvP_GameOver_Screen() {
@@ -98,53 +165,144 @@ void PvP_GameOver_Screen() {
 public void mousePressed() {
   // if we are on the specified screen when clicked call this code
   switch(gameScreen) {
-    case 0:
-      if (onPvCOMButton()) {
-        // change to Screen 1  
-        gameScreen = 1;    
-      } else if (onPvPButton()) {
-        // change to Screen 3  
-        gameScreen = 3;       
-      }
-      break;
-    case 1:
+  case 0:
+    if (PvCOM_Play.onButton()) {
+      // change to Screen 1  
+      gameScreen = 1;
+      
+    } else if (PvP_Play.onButton()) {
+      // change to Screen 3  
+      gameScreen = 3;
+      
+      playerOne.add(new PlayerOne());
+      playerTwo.add(new PlayerTwo());
+      println(playerOne.get(0));
+    }
+    break;
+    
+  case 1:
 
-      if (onBackButton()) {
+    if (backButton.onButton()) {
+      // change to Screen 0
+      gameScreen = 0;
+      
+      // erneute Felderstellung
+      laufVariable = 1;
+      
+      for (int i = 0; i < felderArray.length; i++) {
+        for (int j = 0; j < felderArray[i].length; j++) {
+          felderArray[i][j] = null;
+          felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255, false);
+          laufVariable++;
+        }
+      }  
+    }  
+
+    break;
+
+  case 2:
+    //
+  case 3:
+      if (backButton.onButton()) {
         // change to Screen 0
         gameScreen = 0;
-      }
-      
-      break;
-      
-    case 2:
-      //
-    case 3:
-      if (gameScreen == 3) {
-        if (onBackButton()) {
-          // change to Screen 0
-          gameScreen = 0;
+        
+        // erneute Felderstellung
+        laufVariable = 1;
+        
+        for (int i = 0; i < felderArray.length; i++) {
+          for (int j = 0; j < felderArray[i].length; j++) {
+            felderArray[i][j] = null;
+            felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255, false);
+            laufVariable++;
+          }
         }
+        
+        // PlayerListe leeren und hinzufügen, um Error zu vermeiden
+        playerOne.clear();
+        playerOne.add(new PlayerOne());
+        playerTwo.clear();
+        playerTwo.add(new PlayerTwo());
       }
-      break;
-    case 4:
-      //
+      
+      for (int i = 0; i < felderArray.length; i++) {
+        for (int j = 0; j < felderArray[i].length; j++) {
+        
+          PlayerOne tempOneSpieler = playerOne.get(0);
+          PlayerTwo tempTwoSpieler = playerTwo.get(0);
+          
+          if (tempOneSpieler.turn && felderArray[i][j].taken == false && felderArray[i][j].onButton(feldBreite,feldHoehe)) {
+              felderArray[i][j].rectColor = tempOneSpieler.playerColor;
+              felderArray[i][j].taken = true;
+              tempOneSpieler.score += felderArray[i][j].index;
+              
+              // Faktoren der ausgewählten Zahl
+              IntList tempFaktoren = faktoren(felderArray[i][j].index);
+              
+              for (int k = 0; k < felderArray.length; k++) {
+                  for (int l = 0; l < felderArray[k].length; l++) {
+                      for (int index : tempFaktoren) {
+                        // wenn das Feld nicht belegt ist und der Index des Teilers gleich dessen des Einzelfeldes ist
+                        if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
+                            felderArray[k][l].taken = true;
+                            felderArray[k][l].rectColor = tempTwoSpieler.playerColor;
+                            tempTwoSpieler.score += felderArray[k][l].index;
+                        }
+                      }
+                  }
+              }
+              
+              // overwrite player values
+              tempOneSpieler.turn = false;
+              tempTwoSpieler.turn = true;
+              playerOne.set(0,tempOneSpieler);
+              playerTwo.set(0,tempTwoSpieler);
+              
+          } else if (tempTwoSpieler.turn && felderArray[i][j].taken == false && felderArray[i][j].onButton(feldBreite,feldHoehe)) {
+              felderArray[i][j].rectColor = tempTwoSpieler.playerColor;
+              felderArray[i][j].taken = true;
+              tempTwoSpieler.score += felderArray[i][j].index;
+              
+              // Faktoren der ausgewählten Zahl
+              IntList tempTwoFaktoren = faktoren(felderArray[i][j].index);
+              
+              for (int k = 0; k < felderArray.length; k++) {
+                  for (int l = 0; l < felderArray[k].length; l++) {
+                      for (int index : tempTwoFaktoren) {
+                        if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
+                            felderArray[k][l].taken = true;
+                            felderArray[k][l].rectColor = tempOneSpieler.playerColor;
+                            tempOneSpieler.score += felderArray[k][l].index;
+                        }
+                      }
+                  }
+              }
+              
+              // overwrite player values
+              tempTwoSpieler.turn = false;
+              tempOneSpieler.turn = true;
+              playerTwo.set(0,tempTwoSpieler);
+              playerOne.set(0,tempOneSpieler);
+          }
+        }
+    } 
+    break;
+    
+  case 4:
+    //
   }
 }
 
 
 /********* OTHER FUNCTIONS *********/
-
-boolean onPvCOMButton () {
-  return mouseX > (PvCOM_Play.x-PvCOM_Play._width/2) && mouseX < (PvCOM_Play.x+PvCOM_Play._width/2)
-        && mouseY > (PvCOM_Play.y-PvCOM_Play._height/2) && mouseY < (PvCOM_Play.y+PvCOM_Play._height/2);
-}
-
-boolean onPvPButton () {
-  return mouseX > (PvP_Play.x-PvP_Play._width/2) && mouseX < (PvP_Play.x+PvP_Play._width/2)
-        && mouseY > (PvP_Play.y-PvP_Play._height/2) && mouseY < (PvP_Play.y+PvP_Play._height/2);
-}
-
-
-boolean onBackButton () {
-  return mouseX < (backButton.x+backButton._width) && mouseY < (backButton.y+backButton._height); 
+// Returns a List of factors of a given number
+IntList faktoren (int number) {
+  IntList faktoren = new IntList();
+  for (int loopCounter = 1; loopCounter < number; loopCounter++) {
+    // check if remainder of division is 0
+    if (number % loopCounter == 0) {
+      faktoren.append(loopCounter);
+    }
+  }
+  return faktoren;
 }

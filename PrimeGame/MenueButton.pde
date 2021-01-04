@@ -22,4 +22,9 @@ public class MenueButton {
     fill(textColor);
     text(label, textX, textY);
   }
+  
+  boolean onButton() {
+    return mouseX > (this.x-this._width/2) && mouseX < (this.x + this._width/2)
+    && mouseY > (this.y - this._height/2) && mouseY < (this.y + this._height/2);
+  }
 }
