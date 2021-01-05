@@ -30,6 +30,10 @@ float feldHoehe;
 
 Einzelfeld[][] felderArray = new Einzelfeld[anzahlFelderY][anzahlFelderX];
 
+// to check if all the numbers are taken
+int gesamtScore;
+String winnerPvP;
+
 // Spieler Liste
 ArrayList<PlayerOne> playerOne = new ArrayList();
 ArrayList<PlayerTwo> playerTwo = new ArrayList();
@@ -62,9 +66,11 @@ void setup () {
       felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255, false);
       print(felderArray[i][j].index);
       print(" ");
+      gesamtScore += laufVariable;
       laufVariable++;
     }
   }
+  
 
 }
 
@@ -85,6 +91,15 @@ void draw () {
     break;
   case 4:
     PvP_GameOver_Screen();
+    break;
+  case 5:
+    PvCOM_leicht_Screen();
+    break;
+  case 6:
+    PvCOM_mittel_Screen();
+    break;
+  case 7:
+    PvCOM_schwer_Screen();
     break;
   }
 }
@@ -113,13 +128,18 @@ void PvCOM_Screen() {
   textAlign(CENTER);
   textSize(12);
   
-  // zeichnet alle Einzelfelder
-  for (int i = 0; i < felderArray.length; i++) {
-    for (int j = 0; j < felderArray[i].length; j++) {
-      
-      felderArray[i][j].draw(felderArray[i][j].posX,felderArray[i][j].posY,feldBreite,feldHoehe,felderArray[i][j].label);
-    }
-  }
+  
+}
+
+void PvCOM_leicht_Screen() {
+  
+}
+
+void PvCOM_mittel_Screen() {
+  
+}
+
+void PvCOM_schwer_Screen() {
   
 }
 
@@ -136,28 +156,29 @@ void PvP_Screen() {
   textAlign(CENTER);
   textSize(12);
   
-  // zeichnet alle Einzelfelder
-  for (int i = 0; i < felderArray.length; i++) {
-    for (int j = 0; j < felderArray[i].length; j++) {
-      
-      felderArray[i][j].draw(felderArray[i][j].posX,felderArray[i][j].posY,feldBreite,feldHoehe,felderArray[i][j].label);
-    }
-  }
+  Feldzeichnung();
   
   rectMode(CENTER);
   textSize(20);
   PlayerOne tempOneSpieler = playerOne.get(0);
   fill(middlebluegreen);
-  text("Spieler 1 Score: " + str(tempOneSpieler.score), width/4, 80);
+  text("Player 1 Score: " + str(tempOneSpieler.score), width/4, 80);
   PlayerTwo tempTwoSpieler = playerTwo.get(0);
   fill(darksalmon);
-  text("Spieler 2 Score: " + str(tempTwoSpieler.score), width / 4 * 3, 80);
+  text("Player 2 Score: " + str(tempTwoSpieler.score), width / 4 * 3, 80);
   
   fill(0);
 }
 
 void PvP_GameOver_Screen() {
-  // code of PvP Game-Over Screen
+  background(backgroundC);
+  
+  backButton.drawButton(CENTER, 15, CENTER, backButton.x, backButton.y, 255);
+  
+  rectMode(CENTER);
+  textSize(30);
+  fill(0,250,0);
+  text(winnerPvP + " hat gewonnen.", width/2, height/2);
 }
 
 /********* INPUTS *********/
@@ -176,7 +197,6 @@ public void mousePressed() {
       
       playerOne.add(new PlayerOne());
       playerTwo.add(new PlayerTwo());
-      println(playerOne.get(0));
     }
     break;
     
@@ -186,16 +206,7 @@ public void mousePressed() {
       // change to Screen 0
       gameScreen = 0;
       
-      // erneute Felderstellung
-      laufVariable = 1;
-      
-      for (int i = 0; i < felderArray.length; i++) {
-        for (int j = 0; j < felderArray[i].length; j++) {
-          felderArray[i][j] = null;
-          felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255, false);
-          laufVariable++;
-        }
-      }  
+      Felderneuerung();  
     }  
 
     break;
@@ -207,24 +218,16 @@ public void mousePressed() {
         // change to Screen 0
         gameScreen = 0;
         
-        // erneute Felderstellung
-        laufVariable = 1;
+        Felderneuerung();
         
-        for (int i = 0; i < felderArray.length; i++) {
-          for (int j = 0; j < felderArray[i].length; j++) {
-            felderArray[i][j] = null;
-            felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255, false);
-            laufVariable++;
-          }
-        }
-        
-        // PlayerListe leeren und hinzufügen, um Error zu vermeiden
+        // Clear player Lists to reset all values
         playerOne.clear();
         playerOne.add(new PlayerOne());
         playerTwo.clear();
         playerTwo.add(new PlayerTwo());
       }
       
+            
       for (int i = 0; i < felderArray.length; i++) {
         for (int j = 0; j < felderArray[i].length; j++) {
         
@@ -285,17 +288,59 @@ public void mousePressed() {
               playerOne.set(0,tempOneSpieler);
           }
         }
-    } 
+    }
+    
+    PlayerOne tempEinsSpieler = playerOne.get(0);
+    PlayerTwo tempZweiSpieler = playerTwo.get(0);
+    
+    if (tempEinsSpieler.score + tempZweiSpieler.score == gesamtScore) {  
+        
+        if (tempEinsSpieler.score > tempZweiSpieler.score) {
+            winnerPvP = tempEinsSpieler.getPlayerName();
+            gameScreen = 4;
+        } else if (tempZweiSpieler.score > tempEinsSpieler.score) {
+            winnerPvP = tempZweiSpieler.getPlayerName();
+            gameScreen = 4;
+        } else {
+            winnerPvP = "Keiner";
+            gameScreen = 4;
+        }
+    }
+    
     break;
     
   case 4:
-    //
+
+    if (backButton.onButton()) {
+      // change to Screen 0
+      gameScreen = 0;
+      
+      // erneute Felderstellung
+      laufVariable = 1;
+      
+      for (int i = 0; i < felderArray.length; i++) {
+        for (int j = 0; j < felderArray[i].length; j++) {
+          // delete all values from each Einzelfeld object
+          felderArray[i][j] = null;
+          // create new Einzelfeld object for replacement
+          felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255, false);
+          laufVariable++;
+        }
+      }
+      
+      // Clear player Lists to reset all values
+      playerOne.clear();
+      playerOne.add(new PlayerOne());
+      playerTwo.clear();
+      playerTwo.add(new PlayerTwo());
+    }
+    
   }
 }
 
 
 /********* OTHER FUNCTIONS *********/
-// Returns a List of factors of a given number
+// Gibt eine Liste der Faktoren der eingegebenen Nummer zurück
 IntList faktoren (int number) {
   IntList faktoren = new IntList();
   for (int loopCounter = 1; loopCounter < number; loopCounter++) {
@@ -305,4 +350,31 @@ IntList faktoren (int number) {
     }
   }
   return faktoren;
+}
+
+// Zeichnet alle Einzelfelder
+void Feldzeichnung() {
+  // zeichnet alle Einzelfelder
+  for (int i = 0; i < felderArray.length; i++) {
+    for (int j = 0; j < felderArray[i].length; j++) {
+      
+      felderArray[i][j].draw(felderArray[i][j].posX,felderArray[i][j].posY,feldBreite,feldHoehe,felderArray[i][j].label);
+    }
+  }
+}
+
+// Ersetzt alle Einzelfelder durch neue
+void Felderneuerung() {
+  // erneute Felderstellung
+  laufVariable = 1;
+  
+  for (int i = 0; i < felderArray.length; i++) {
+    for (int j = 0; j < felderArray[i].length; j++) {
+      // delete all values from each Einzelfeld object
+      felderArray[i][j] = null;
+      // create new Einzelfeld object for replacement
+      felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255, false);
+      laufVariable++;
+    }
+  }
 }

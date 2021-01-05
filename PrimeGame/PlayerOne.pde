@@ -7,7 +7,7 @@ class PlayerOne extends Spieler {
   color playerColor = #83C5BE;
 
   String getPlayerName () {
-    return "PlayerOne";
+    return "Player 1";
   }
 
   int auswahl(int[] numbers) {
