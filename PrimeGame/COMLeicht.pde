@@ -5,12 +5,22 @@ class COMLeicht extends Spieler {
   boolean turn = false;
   
   color playerColor = #E29578;
+  
+  IntList auswahlNumbers = new IntList();
 
   String getPlayerName () {
     return "COM Leicht";
   }
 
   int auswahl(int[] numbers) {
-    return 0;
+    int randomNum = (int)random(numbers.length);
+    int auswahlNum;
+    
+    if (numbers.length > 0) {
+        auswahlNum = numbers[randomNum];
+    } else {
+        auswahlNum = 0;
+    }    
+    return auswahlNum;
   }
 }

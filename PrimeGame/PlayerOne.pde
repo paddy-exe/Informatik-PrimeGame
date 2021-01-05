@@ -5,6 +5,8 @@ class PlayerOne extends Spieler {
   boolean turn = true;
   
   color playerColor = #83C5BE;
+  
+  IntList takenNum = new IntList();
 
   String getPlayerName () {
     return "Player 1";
