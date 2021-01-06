@@ -384,7 +384,6 @@ public void mousePressed() {
               tempOneSpieler.turn = true;
               COMLeicht.set(0, tempCOM1);
               playerOne.set(0, tempOneSpieler);
-
           }
         }
         
