@@ -19,7 +19,7 @@ class COMLeicht extends Spieler {
     if (numbers.length > 0) {
         auswahlNum = numbers[randomNum];
     } else {
-        auswahlNum = 0;
+        auswahlNum = numbers[0];
     }    
     return auswahlNum;
   }

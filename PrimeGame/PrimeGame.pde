@@ -245,7 +245,7 @@ void PvP_GameOver_Screen() {
 
 /********* INPUTS *********/
 
-public void mousePressed() {
+void mousePressed() {
   // if we are on the specified screen when clicked call this code
   switch(gameScreen) {
   case 0:
@@ -336,6 +336,9 @@ public void mousePressed() {
             }
            else if (tempCOM1.turn) {
                 
+              // um die Liste aktuell zu halten, muss sie vor dem erneuten Hinzufügen geleert werden
+              tempCOM1.auswahlNumbers.clear();
+             
               for (int k=0; k < felderArray.length; k++) {
                 for (int l = 0; l < felderArray[k].length; l++) {
       
@@ -345,15 +348,15 @@ public void mousePressed() {
                 }
               }
       
-              int[] auswahlNummern = new int[tempCOM1.auswahlNumbers.size()];
+              int[] auswahlArray = new int[tempCOM1.auswahlNumbers.size()];
       
               for (int index=0; index < tempCOM1.auswahlNumbers.size(); index++) {
-                auswahlNummern[index] = tempCOM1.auswahlNumbers.get(index);
+                auswahlArray[index] = tempCOM1.auswahlNumbers.get(index);
               }
               
       
               // gibt die ausgewählte Zahl zurück
-              int com1Auswahl = tempCOM1.auswahl(auswahlNummern);
+              int com1Auswahl = tempCOM1.auswahl(auswahlArray);
       
               IntList tempCOM1Faktoren = faktoren(com1Auswahl);
       
@@ -384,6 +387,7 @@ public void mousePressed() {
               tempOneSpieler.turn = true;
               COMLeicht.set(0, tempCOM1);
               playerOne.set(0, tempOneSpieler);
+
           }
         }
         
@@ -453,9 +457,12 @@ public void mousePressed() {
               
               //tempOneSpieler = playerOne.get(0);
               //tempCOM1 = COMLeicht.get(0);
-            }
-           else if (tempCOM2.turn) {
+              
+            } else if (tempCOM2.turn) {
                              
+              // um die Liste aktuell zu halten, muss sie vor dem erneuten Hinzufügen geleert werden
+              tempCOM2.auswahlNumbers.clear();
+             
               for (int k=0; k < felderArray.length; k++) {
                 for (int l = 0; l < felderArray[k].length; l++) {
       
@@ -465,15 +472,16 @@ public void mousePressed() {
                 }
               }
       
-              int[] auswahlNummern = new int[tempCOM2.auswahlNumbers.size()];
+              int[] auswahlArray = new int[tempCOM2.auswahlNumbers.size()];
       
               for (int index=0; index < tempCOM2.auswahlNumbers.size(); index++) {
-                auswahlNummern[index] = tempCOM2.auswahlNumbers.get(index);
+                auswahlArray[index] = tempCOM2.auswahlNumbers.get(index);
               }
               
       
               // gibt die ausgewählte Zahl zurück
-              int com2Auswahl = tempCOM2.auswahl(auswahlNummern);
+              int com2Auswahl = tempCOM2.auswahl(auswahlArray);
+              println("Ausgeählte Zahl: " + com2Auswahl + "\n");
       
               IntList tempCOM1Faktoren = faktoren(com2Auswahl);
       
