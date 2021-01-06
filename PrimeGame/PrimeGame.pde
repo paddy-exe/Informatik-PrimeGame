@@ -196,7 +196,17 @@ void PvCOM_schwer_Screen() {
 }
 
 void PvCOM_GameOver_Screen() {
-  // code of PvCOM Game-Over Screen
+  background(backgroundC);
+
+  backButton.drawButton(CENTER, 15, CENTER, backButton.x, backButton.y, 255);
+  
+  rectMode(CENTER);
+  textSize(30);
+  fill(0, 250, 0);
+  text(winnerPvP + " hat gewonnen.", width/2, height/2);
+
+  // Farbe wieder zurück auf schwarz
+  fill(0);
 }
 
 void PvP_Screen() {
@@ -298,7 +308,9 @@ public void mousePressed() {
 
             if (tempOneSpieler.turn && felderArray[i][j].taken == false && felderArray[i][j].onClick(feldBreite, feldHoehe)) {
               felderArray[i][j].rectColor = tempOneSpieler.playerColor;
+              println("New color: " + str(felderArray[i][j].rectColor) + "\n");
               felderArray[i][j].taken = true;
+              println("Player takes: " + felderArray[i][j].index + "\n");
               tempOneSpieler.score += felderArray[i][j].index;
 
               // Faktoren der ausgewählten Zahl
@@ -323,8 +335,8 @@ public void mousePressed() {
               playerOne.set(0, tempOneSpieler);
               COMLeicht.set(0, tempCOM1);
               
-              tempOneSpieler = playerOne.get(0);
-              tempCOM1 = COMLeicht.get(0);
+              //tempOneSpieler = playerOne.get(0);
+              //tempCOM1 = COMLeicht.get(0);
             }
            else if (tempCOM1.turn) {
               
@@ -386,8 +398,8 @@ public void mousePressed() {
               COMLeicht.set(0, tempCOM1);
               playerOne.set(0, tempOneSpieler);
               
-              tempOneSpieler = playerOne.get(0);
-              tempCOM1 = COMLeicht.get(0);
+              //tempOneSpieler = playerOne.get(0);
+              //tempCOM1 = COMLeicht.get(0);
           }
         }
         
@@ -400,8 +412,8 @@ public void mousePressed() {
       if (tempOneSpieler.score + tempCOM1.score == gesamtScore) {  
 
         // stop bot from playing
-        tempCOM1.turn = false;
-        COMLeicht.set(0, tempCOM1);
+        //tempCOM1.turn = false;
+        //COMLeicht.set(0, tempCOM1);
 
         if (tempOneSpieler.score > tempCOM1.score) {
           winnerPvP = tempOneSpieler.getPlayerName();
@@ -447,7 +459,18 @@ public void mousePressed() {
     break;
 
   case 5:
-    // PvCOM GameOver Screen
+
+    if (backButton.onButton()) {
+      // change to Screen 0
+      gameScreen = 1;
+
+      Felderneuerung();
+
+      // Clear player Lists
+      playerOne.clear();
+      COMLeicht.clear();
+    }
+    
     break;
 
   case 6:
