@@ -14,11 +14,11 @@ class COMLeicht extends Spieler {
 
   int auswahl(int[] numbers) {
     int randomNum = (int)random(numbers.length);
-    int auswahlNum;
+    int auswahlNum = 1;
     
-    if (numbers.length > 0) {
+    if (numbers.length >= 2) {
         auswahlNum = numbers[randomNum];
-    } else {
+    } else if (numbers.length == 1) {
         auswahlNum = numbers[0];
     }    
     return auswahlNum;

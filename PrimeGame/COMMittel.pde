@@ -13,7 +13,7 @@ class COMMittel extends Spieler {
   }
 
   int auswahl(int[] numbers) {
-    int auswahlNum = 0;
+    int auswahlNum = 1;
     
     if (numbers.length >= 2) {
         auswahlNum = numbers[numbers.length - 1];
