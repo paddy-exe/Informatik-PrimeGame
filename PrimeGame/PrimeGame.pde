@@ -375,7 +375,7 @@ void mousePressed() {
                   for (int index : tempCOM1Faktoren) {
                     if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
                       felderArray[k][l].taken = true;
-                      felderArray[k][l].rectColor = tempCOM1.playerColor;
+                      felderArray[k][l].rectColor = tempOneSpieler.playerColor;
                       tempOneSpieler.score += felderArray[k][l].index;
                     }
                   }
@@ -393,7 +393,7 @@ void mousePressed() {
         
       }
 
-      if (tempOneSpieler.score + tempCOM1.score == gesamtScore) {  
+      if (tempOneSpieler.score + tempCOM1.score >= gesamtScore) {  
 
         if (tempOneSpieler.score > tempCOM1.score) {
           winnerPvP = tempOneSpieler.getPlayerName();
@@ -490,7 +490,7 @@ void mousePressed() {
                   if (felderArray[k][l].index == com2Auswahl && felderArray[k][l].taken == false) {
                     felderArray[k][l].rectColor = tempCOM2.playerColor;
                     felderArray[k][l].taken = true;
-                    tempOneSpieler.score += felderArray[k][l].index;
+                    tempCOM2.score += felderArray[k][l].index;
                   }
                 }
               }
@@ -501,7 +501,7 @@ void mousePressed() {
                   for (int index : tempCOM1Faktoren) {
                     if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
                       felderArray[k][l].taken = true;
-                      felderArray[k][l].rectColor = tempCOM2.playerColor;
+                      felderArray[k][l].rectColor = tempOneSpieler.playerColor;
                       tempOneSpieler.score += felderArray[k][l].index;
                     }
                   }
@@ -519,8 +519,9 @@ void mousePressed() {
         
       }
 
-      if (tempOneSpieler.score + tempCOM2.score == gesamtScore) {  
-
+      if (tempOneSpieler.score + tempCOM2.score >= gesamtScore) {  
+        println("Spieler 1 Score: " + str(tempOneSpieler.score) + "Player 2 Score: " + str(tempCOM2.score));
+        println("Gesamtscore: " + str(gesamtScore));
         // stop bot from playing
         //tempCOM1.turn = false;
         //COMLeicht.set(0, tempCOM1);
@@ -565,6 +566,7 @@ void mousePressed() {
       // Clear player Lists
       playerOne.clear();
       COMLeicht.clear();
+      COMMittel.clear();
     }
     
     break;
@@ -646,7 +648,6 @@ void mousePressed() {
       PlayerTwo tempZweiSpieler = playerTwo.get(0);
 
       if (tempEinsSpieler.score + tempZweiSpieler.score == gesamtScore) {  
-
         if (tempEinsSpieler.score > tempZweiSpieler.score) {
           winnerPvP = tempEinsSpieler.getPlayerName();
           gameScreen = 7;
