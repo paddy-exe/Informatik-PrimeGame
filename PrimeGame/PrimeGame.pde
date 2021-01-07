@@ -147,7 +147,7 @@ void PvCOM_leicht_Screen() {
   text("Player 1 Score: " + str(tempOneSpieler.score), width/4, height * 0.15);
   COMLeicht tempCOM1 = COMLeicht.get(0);
   fill(tempCOM1.playerColor);
-  text("COM Score: " + str(tempCOM1.score), width / 4 * 3, height * 0.15);
+  text("COM 1 Score: " + str(tempCOM1.score), width / 4 * 3, height * 0.15);
 
   // Farbe wieder zurück auf schwarz
   fill(0);
@@ -234,7 +234,7 @@ void PvCOM_mittel_Screen() {
   text("Player 1 Score: " + str(tempOneSpieler.score), width/4, height * 0.15);
   COMMittel tempCOM2 = COMMittel.get(0);
   fill(tempCOM2.playerColor);
-  text("COM Score: " + str(tempCOM2.score), width / 4 * 3, height * 0.15);
+  text("COM 2 Score: " + str(tempCOM2.score), width / 4 * 3, height * 0.15);
 
   // Farbe wieder zurück auf schwarz
   fill(0);
@@ -319,7 +319,7 @@ void PvCOM_schwer_Screen() {
   text("Player 1 Score: " + str(tempOneSpieler.score), width/4, height * 0.15);
   COMSchwer tempCOM3 = COMSchwer.get(0);
   fill(tempCOM3.playerColor);
-  text("COM Score: " + str(tempCOM3.score), width / 4 * 3, height * 0.15);
+  text("COM 3 Score: " + str(tempCOM3.score), width / 4 * 3, height * 0.15);
 
   // Farbe wieder zurück auf schwarz
   fill(0);
