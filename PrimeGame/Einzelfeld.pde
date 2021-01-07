@@ -25,7 +25,7 @@ class Einzelfeld {
     text(label, posX + feldBreite/2, posY + feldHoehe/2 + 5);
   }
   
-  boolean onButton(float feldBreite, float feldHoehe) {
+  boolean onClick(float feldBreite, float feldHoehe) {
     return mouseX > posX && mouseX < (posX + feldBreite) && mouseY > posY && mouseY < (posY + feldHoehe);
   }
 }

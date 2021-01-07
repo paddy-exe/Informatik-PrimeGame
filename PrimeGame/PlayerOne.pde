@@ -5,9 +5,11 @@ class PlayerOne extends Spieler {
   boolean turn = true;
   
   color playerColor = #83C5BE;
+  
+  IntList takenNum = new IntList();
 
   String getPlayerName () {
-    return "PlayerOne";
+    return "Player 1";
   }
 
   int auswahl(int[] numbers) {

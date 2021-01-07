@@ -1,5 +1,5 @@
-class PlayerTwo extends Spieler {
-  boolean isHuman = true;
+class COMSchwer extends Spieler {
+  boolean isHuman = false;
   int score = 0;
   
   boolean turn = false;
@@ -7,7 +7,7 @@ class PlayerTwo extends Spieler {
   color playerColor = #E29578;
 
   String getPlayerName () {
-    return "Player 2";
+    return "COM Leicht";
   }
 
   int auswahl(int[] numbers) {
