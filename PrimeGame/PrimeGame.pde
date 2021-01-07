@@ -151,6 +151,72 @@ void PvCOM_leicht_Screen() {
 
   // Farbe wieder zurück auf schwarz
   fill(0);
+  
+  tempOneSpieler = playerOne.get(0);
+  tempCOM1 = COMLeicht.get(0);
+  
+      for (int i = 0; i < felderArray.length; i++) {
+        for (int j = 0; j < felderArray[i].length; j++) {
+  
+            if (tempCOM1.turn) {
+                          
+                  // um die Liste aktuell zu halten, muss sie vor dem erneuten Hinzufügen geleert werden
+                  tempCOM1.auswahlNumbers.clear();
+                 
+                  for (int k=0; k < felderArray.length; k++) {
+                    for (int l = 0; l < felderArray[k].length; l++) {
+          
+                      if (felderArray[k][l].taken == false) {
+                        tempCOM1.auswahlNumbers.append(felderArray[k][l].index);
+                      }
+                    }
+                  }
+          
+                  int[] auswahlArray = new int[tempCOM1.auswahlNumbers.size()];
+          
+                  for (int index=0; index < tempCOM1.auswahlNumbers.size(); index++) {
+                    auswahlArray[index] = tempCOM1.auswahlNumbers.get(index);
+                  }
+                  
+          
+                  // gibt die ausgewählte Zahl zurück
+                  int com1Auswahl = tempCOM1.auswahl(auswahlArray);
+          
+                  IntList tempCOM1Faktoren = faktoren(com1Auswahl);
+          
+                  for (int k = 0; k < felderArray.length; k++) {
+                    for (int l = 0; l < felderArray[k].length; l++) {
+                      if (felderArray[k][l].index == com1Auswahl && felderArray[k][l].taken == false) {
+                        felderArray[k][l].rectColor = tempCOM1.playerColor;
+                        felderArray[k][l].taken = true;
+                        tempCOM1.score += felderArray[k][l].index;
+                      }
+                    }
+                  }
+             
+                  for (int k = 0; k < felderArray.length; k++) {
+                    for (int l = 0; l < felderArray[k].length; l++) {
+                      for (int index : tempCOM1Faktoren) {
+                        if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
+                          felderArray[k][l].taken = true;
+                          felderArray[k][l].rectColor = tempOneSpieler.playerColor;
+                          tempOneSpieler.score += felderArray[k][l].index;
+                        }
+                      }
+                    }
+                  }
+          
+                  // overwrite player values
+                  tempCOM1.turn = false;
+                  tempOneSpieler.turn = true;
+                  COMLeicht.set(0, tempCOM1);
+                  playerOne.set(0, tempOneSpieler);
+          
+              }
+        }
+      }
+      
+  check_Play_vs_COM1Winner();
 }
 
 void PvCOM_mittel_Screen() {
@@ -172,6 +238,70 @@ void PvCOM_mittel_Screen() {
 
   // Farbe wieder zurück auf schwarz
   fill(0);
+  
+    for (int i = 0; i < felderArray.length; i++) {
+      for (int j = 0; j < felderArray[i].length; j++) {
+        
+         if (tempCOM2.turn) {
+                             
+              // um die Liste aktuell zu halten, muss sie vor dem erneuten Hinzufügen geleert werden
+              tempCOM2.auswahlNumbers.clear();
+             
+              for (int k=0; k < felderArray.length; k++) {
+                for (int l = 0; l < felderArray[k].length; l++) {
+      
+                  if (felderArray[k][l].taken == false) {
+                    tempCOM2.auswahlNumbers.append(felderArray[k][l].index);
+                  }
+                }
+              }
+      
+              int[] auswahlArray = new int[tempCOM2.auswahlNumbers.size()];
+      
+              for (int index=0; index < tempCOM2.auswahlNumbers.size(); index++) {
+                auswahlArray[index] = tempCOM2.auswahlNumbers.get(index);
+              }
+                    
+              // gibt die ausgewählte Zahl zurück
+              int com2Auswahl = tempCOM2.auswahl(auswahlArray);
+      
+              IntList tempCOM1Faktoren = faktoren(com2Auswahl);
+      
+              for (int k = 0; k < felderArray.length; k++) {
+                for (int l = 0; l < felderArray[k].length; l++) {
+                  if (felderArray[k][l].index == com2Auswahl && felderArray[k][l].taken == false) {
+                    felderArray[k][l].rectColor = tempCOM2.playerColor;
+                    felderArray[k][l].taken = true;
+                    tempCOM2.score += felderArray[k][l].index;
+                  }
+                }
+              }
+      
+      
+              for (int k = 0; k < felderArray.length; k++) {
+                for (int l = 0; l < felderArray[k].length; l++) {
+                  for (int index : tempCOM1Faktoren) {
+                    if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
+                      felderArray[k][l].taken = true;
+                      felderArray[k][l].rectColor = tempOneSpieler.playerColor;
+                      tempOneSpieler.score += felderArray[k][l].index;
+                    }
+                  }
+                }
+              }
+      
+              // overwrite player values
+              tempCOM2.turn = false;
+              tempOneSpieler.turn = true;
+              COMMittel.set(0, tempCOM2);
+              playerOne.set(0, tempOneSpieler);             
+          }          
+      }
+    }
+    
+    // checkt ob der GesamtScore dem der Summe der beiden Spieler entspricht
+    check_Play_vs_COM2Winner();
+                   
 }
 
 void PvCOM_schwer_Screen() {
@@ -333,79 +463,13 @@ void mousePressed() {
               playerOne.set(0, tempOneSpieler);
               COMLeicht.set(0, tempCOM1);
               
-            }
-           else if (tempCOM1.turn) {
-                
-              // um die Liste aktuell zu halten, muss sie vor dem erneuten Hinzufügen geleert werden
-              tempCOM1.auswahlNumbers.clear();
-             
-              for (int k=0; k < felderArray.length; k++) {
-                for (int l = 0; l < felderArray[k].length; l++) {
-      
-                  if (felderArray[k][l].taken == false) {
-                    tempCOM1.auswahlNumbers.append(felderArray[k][l].index);
-                  }
-                }
-              }
-      
-              int[] auswahlArray = new int[tempCOM1.auswahlNumbers.size()];
-      
-              for (int index=0; index < tempCOM1.auswahlNumbers.size(); index++) {
-                auswahlArray[index] = tempCOM1.auswahlNumbers.get(index);
-              }
-              
-      
-              // gibt die ausgewählte Zahl zurück
-              int com1Auswahl = tempCOM1.auswahl(auswahlArray);
-      
-              IntList tempCOM1Faktoren = faktoren(com1Auswahl);
-      
-              for (int k = 0; k < felderArray.length; k++) {
-                for (int l = 0; l < felderArray[k].length; l++) {
-                  if (felderArray[k][l].index == com1Auswahl && felderArray[k][l].taken == false) {
-                    felderArray[k][l].rectColor = tempCOM1.playerColor;
-                    felderArray[k][l].taken = true;
-                    tempCOM1.score += felderArray[k][l].index;
-                  }
-                }
-              }
-         
-              for (int k = 0; k < felderArray.length; k++) {
-                for (int l = 0; l < felderArray[k].length; l++) {
-                  for (int index : tempCOM1Faktoren) {
-                    if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
-                      felderArray[k][l].taken = true;
-                      felderArray[k][l].rectColor = tempOneSpieler.playerColor;
-                      tempOneSpieler.score += felderArray[k][l].index;
-                    }
-                  }
-                }
-              }
-      
-              // overwrite player values
-              tempCOM1.turn = false;
-              tempOneSpieler.turn = true;
-              COMLeicht.set(0, tempCOM1);
-              playerOne.set(0, tempOneSpieler);
-
           }
+           
         }
         
       }
 
-      if (tempOneSpieler.score + tempCOM1.score >= gesamtScore) {  
-
-        if (tempOneSpieler.score > tempCOM1.score) {
-          winnerPvP = tempOneSpieler.getPlayerName();
-          gameScreen = 5;
-        } else if (tempCOM1.score > tempOneSpieler.score) {
-          winnerPvP = tempCOM1.getPlayerName();
-          gameScreen = 5;
-        } else {
-          winnerPvP = "Keiner";
-          gameScreen = 5;
-        }
-      }
+      check_Play_vs_COM1Winner();
     }
 
     break;
@@ -423,8 +487,7 @@ void mousePressed() {
     } else {
         PlayerOne tempOneSpieler = playerOne.get(0);
         COMMittel tempCOM2 = COMMittel.get(0);
-
-     
+    
         for (int i = 0; i < felderArray.length; i++) {
           for (int j = 0; j < felderArray[i].length; j++) {
 
@@ -458,85 +521,13 @@ void mousePressed() {
               //tempOneSpieler = playerOne.get(0);
               //tempCOM1 = COMLeicht.get(0);
               
-            } else if (tempCOM2.turn) {
-                             
-              // um die Liste aktuell zu halten, muss sie vor dem erneuten Hinzufügen geleert werden
-              tempCOM2.auswahlNumbers.clear();
-             
-              for (int k=0; k < felderArray.length; k++) {
-                for (int l = 0; l < felderArray[k].length; l++) {
-      
-                  if (felderArray[k][l].taken == false) {
-                    tempCOM2.auswahlNumbers.append(felderArray[k][l].index);
-                  }
-                }
-              }
-      
-              int[] auswahlArray = new int[tempCOM2.auswahlNumbers.size()];
-      
-              for (int index=0; index < tempCOM2.auswahlNumbers.size(); index++) {
-                auswahlArray[index] = tempCOM2.auswahlNumbers.get(index);
-              }
-              
-      
-              // gibt die ausgewählte Zahl zurück
-              int com2Auswahl = tempCOM2.auswahl(auswahlArray);
-              println("Ausgeählte Zahl: " + com2Auswahl + "\n");
-      
-              IntList tempCOM1Faktoren = faktoren(com2Auswahl);
-      
-              for (int k = 0; k < felderArray.length; k++) {
-                for (int l = 0; l < felderArray[k].length; l++) {
-                  if (felderArray[k][l].index == com2Auswahl && felderArray[k][l].taken == false) {
-                    felderArray[k][l].rectColor = tempCOM2.playerColor;
-                    felderArray[k][l].taken = true;
-                    tempCOM2.score += felderArray[k][l].index;
-                  }
-                }
-              }
-      
-      
-              for (int k = 0; k < felderArray.length; k++) {
-                for (int l = 0; l < felderArray[k].length; l++) {
-                  for (int index : tempCOM1Faktoren) {
-                    if (felderArray[k][l].index == index && felderArray[k][l].taken == false) {
-                      felderArray[k][l].taken = true;
-                      felderArray[k][l].rectColor = tempOneSpieler.playerColor;
-                      tempOneSpieler.score += felderArray[k][l].index;
-                    }
-                  }
-                }
-              }
-      
-              // overwrite player values
-              tempCOM2.turn = false;
-              tempOneSpieler.turn = true;
-              COMMittel.set(0, tempCOM2);
-              playerOne.set(0, tempOneSpieler);
-              
-          }
+            } 
         }
         
       }
 
-      if (tempOneSpieler.score + tempCOM2.score >= gesamtScore) {  
-        println("Spieler 1 Score: " + str(tempOneSpieler.score) + "Player 2 Score: " + str(tempCOM2.score));
-        println("Gesamtscore: " + str(gesamtScore));
-        // stop bot from playing
-        //tempCOM1.turn = false;
-        //COMLeicht.set(0, tempCOM1);
-
-        if (tempOneSpieler.score > tempCOM2.score) {
-          winnerPvP = tempOneSpieler.getPlayerName();
-          gameScreen = 5;
-        } else if (tempCOM2.score > tempOneSpieler.score) {
-          winnerPvP = tempCOM2.getPlayerName();
-          gameScreen = 5;
-        } else {
-          winnerPvP = "Keiner";
-          gameScreen = 5;
-        }
-      }
+      // checkt ob der GesamtScore dem der Summe der beiden Spieler entspricht
+      check_Play_vs_COM2Winner();
     }
 
     break;
@@ -647,7 +638,7 @@ void mousePressed() {
       PlayerOne tempEinsSpieler = playerOne.get(0);
       PlayerTwo tempZweiSpieler = playerTwo.get(0);
 
-      if (tempEinsSpieler.score + tempZweiSpieler.score == gesamtScore) {  
+      if (tempEinsSpieler.score + tempZweiSpieler.score == gesamtScore) {
         if (tempEinsSpieler.score > tempZweiSpieler.score) {
           winnerPvP = tempEinsSpieler.getPlayerName();
           gameScreen = 7;
@@ -721,5 +712,45 @@ void Felderneuerung() {
       felderArray[i][j] = new Einzelfeld(feldBreite*float(j), feldHoehe*float(i) + 100, laufVariable, str(laufVariable), 255, false);
       laufVariable++;
     }
+  }
+}
+
+void check_Play_vs_COM1Winner () {
+  
+  PlayerOne tempOneSpieler = playerOne.get(0);
+  COMLeicht tempCOM1 = COMLeicht.get(0);
+  
+  if (tempOneSpieler.score + tempCOM1.score >= gesamtScore) {  
+
+        if (tempOneSpieler.score > tempCOM1.score) {
+          winnerPvP = tempOneSpieler.getPlayerName();
+          gameScreen = 5;
+        } else if (tempCOM1.score > tempOneSpieler.score) {
+          winnerPvP = tempCOM1.getPlayerName();
+          gameScreen = 5;
+        } else {
+          winnerPvP = "Keiner";
+          gameScreen = 5;
+        }
+  }
+}
+
+void check_Play_vs_COM2Winner () {
+  
+  PlayerOne tempOneSpieler = playerOne.get(0);
+  COMMittel tempCOM2 = COMMittel.get(0);
+  
+  if (tempOneSpieler.score + tempCOM2.score >= gesamtScore) {  
+
+        if (tempOneSpieler.score > tempCOM2.score) {
+          winnerPvP = tempOneSpieler.getPlayerName();
+          gameScreen = 5;
+        } else if (tempCOM2.score > tempOneSpieler.score) {
+          winnerPvP = tempCOM2.getPlayerName();
+          gameScreen = 5;
+        } else {
+          winnerPvP = "Keiner";
+          gameScreen = 5;
+        }
   }
 }
