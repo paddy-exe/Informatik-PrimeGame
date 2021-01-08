@@ -9,11 +9,11 @@ class COMMittel extends Spieler {
   IntList auswahlNumbers = new IntList();
 
   String getPlayerName () {
-    return "COM Mittel";
+    return "COM 2";
   }
 
   int auswahl(int[] numbers) {
-    int auswahlNum = 1;
+    int auswahlNum = 0;
     
     if (numbers.length >= 2) {
         auswahlNum = numbers[numbers.length - 1];

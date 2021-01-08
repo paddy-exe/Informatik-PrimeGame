@@ -9,12 +9,12 @@ class COMLeicht extends Spieler {
   IntList auswahlNumbers = new IntList();
 
   String getPlayerName () {
-    return "COM Leicht";
+    return "COM 1";
   }
 
   int auswahl(int[] numbers) {
     int randomNum = (int)random(numbers.length);
-    int auswahlNum = 1;
+    int auswahlNum = 0;
     
     if (numbers.length >= 2) {
         auswahlNum = numbers[randomNum];

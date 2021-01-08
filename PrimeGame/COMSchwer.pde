@@ -5,9 +5,11 @@ class COMSchwer extends Spieler {
   boolean turn = false;
   
   color playerColor = #E29578;
+  
+  IntList auswahlNumbers = new IntList();
 
   String getPlayerName () {
-    return "COM Leicht";
+    return "COM 3";
   }
 
   int auswahl(int[] numbers) {
