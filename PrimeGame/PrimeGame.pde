@@ -2,10 +2,13 @@
 
 // gameScreen variable kontrolliert welcher Screen dargestellt werden soll
 // 0: Menue Screen
-// 1: Game Screen gegen Computer
-// 2: Game-Over Screen gegen Computer
-// 3: Game Screen gegen Person
-// 4: Game-Over Screen gegen Person
+// 1: Game Menue Screen gegen Computer
+// 2: Game Screen gegen leichten Computer
+// 3: Game Screen gegen mittleren Computer
+// 4: Game Screen gegen schweren Computer
+// 5: Game-Over Screen gegen Computer
+// 6: Game Screen gegen Person
+// 7: Game-Over Screen gegen Person
 
 int gameScreen = 0;
 
@@ -30,7 +33,7 @@ float feldHoehe;
 
 Einzelfeld[][] felderArray = new Einzelfeld[anzahlFelderY][anzahlFelderX];
 
-// gewinner variablen
+// Gewinner variablen
 int gesamtScore;
 String winnerPvP;
 
@@ -56,11 +59,8 @@ void setup () {
   PvCOM_leicht_Play = new MenueButton(width/2, height*0.25, width/2, height * 0.15, "PvCOM Leicht", middlebluegreen);
   PvCOM_mittel_Play = new MenueButton(width/2, height*0.45, width/2, height * 0.15, "PvCOM Mittel", middlebluegreen);
   PvCOM_schwer_Play = new MenueButton(width/2, height*0.65, width/2, height * 0.15, "PvCOM Schwer", middlebluegreen);
-
   PvP_Play = new MenueButton(width/2, height*0.6, width/2, height * 0.15, "Player versus Player", darksalmon);
-
   backButton = new MenueButton((width*0.15)/2, (height*0.05)/2, width*0.15, height*0.05, "Back", ming);
-
 
   // Einzelfelder
   feldBreite = (width/anzahlFelderX * 0.8);
@@ -124,11 +124,8 @@ void PvCOM_Screen() {
   background(backgroundC);
 
   backButton.drawButton(CENTER, 15, CENTER, backButton.x, backButton.y, 255);
-
   PvCOM_leicht_Play.drawButton(CENTER, 20, CENTER, PvCOM_leicht_Play.x, PvCOM_leicht_Play.y, 0);
-
   PvCOM_mittel_Play.drawButton(CENTER, 20, CENTER, PvCOM_mittel_Play.x, PvCOM_mittel_Play.y, 0);
-
   PvCOM_schwer_Play.drawButton(CENTER, 20, CENTER, PvCOM_schwer_Play.x, PvCOM_schwer_Play.y, 0);
 }
 
@@ -154,9 +151,6 @@ void PvCOM_leicht_Screen() {
   
   tempOneSpieler = playerOne.get(0);
   tempCOM1 = COMLeicht.get(0);
-  
-      for (int i = 0; i < felderArray.length; i++) {
-        for (int j = 0; j < felderArray[i].length; j++) {
   
             if (tempCOM1.turn) {
                           
@@ -213,8 +207,6 @@ void PvCOM_leicht_Screen() {
                   playerOne.set(0, tempOneSpieler);
           
               }
-        }
-      }
       
   check_Play_vs_COM1Winner();
 }
@@ -238,9 +230,6 @@ void PvCOM_mittel_Screen() {
 
   // Farbe wieder zurück auf schwarz
   fill(0);
-  
-    for (int i = 0; i < felderArray.length; i++) {
-      for (int j = 0; j < felderArray[i].length; j++) {
         
          if (tempCOM2.turn) {
                              
@@ -296,9 +285,7 @@ void PvCOM_mittel_Screen() {
               COMMittel.set(0, tempCOM2);
               playerOne.set(0, tempOneSpieler);             
           }          
-      }
-    }
-    
+
     // checkt ob der GesamtScore dem der Summe der beiden Spieler entspricht
     check_Play_vs_COM2Winner();
                    
@@ -326,26 +313,21 @@ void PvCOM_schwer_Screen() {
   
   tempOneSpieler = playerOne.get(0);
   tempCOM3 = COMSchwer.get(0);
-  
-  for (int i = 0; i < felderArray.length; i++) {
-      for (int j = 0; j < felderArray[i].length; j++) {
         
          if (tempCOM3.turn) {
                              
               // um die Liste aktuell zu halten, muss sie vor dem erneuten Hinzufügen geleert werden
-              tempCOM3.auswahlNumbers.clear();
-             
-              IntList 
+              tempCOM3.auswahlNumbers.clear();          
              
               for (int k=0; k < felderArray.length; k++) {
                 for (int l = 0; l < felderArray[k].length; l++) {
-          
-                  
-                    
-                    tempCOM3.auswahlNumbers.append(felderArray[k][l].index);                
+         
+                    if (felderArray[k][l].taken == false) {
+                      tempCOM3.auswahlNumbers.append(felderArray[k][l].index);
+                    }       
                   }
                 }
-              }              
+                            
       
               int[] auswahlArray = new int[tempCOM3.auswahlNumbers.size()];
       
@@ -387,8 +369,9 @@ void PvCOM_schwer_Screen() {
               COMSchwer.set(0, tempCOM3);
               playerOne.set(0, tempOneSpieler);             
           }          
-      }
-    }
+    
+    // checkt ob der GesamtScore dem der Summe der beiden Spieler entspricht
+    check_Play_vs_COM3Winner();
 }
 
 void PvCOM_GameOver_Screen() {
@@ -815,16 +798,13 @@ void Felderneuerung() {
 
 void check_Play_vs_COM1Winner () {
   
-  PlayerOne tempOneSpieler = playerOne.get(0);
-  COMLeicht tempCOM1 = COMLeicht.get(0);
-  
-  if (tempOneSpieler.score + tempCOM1.score >= gesamtScore) {  
+  if (playerOne.get(0).score + COMLeicht.get(0).score == gesamtScore) {  
 
-        if (tempOneSpieler.score > tempCOM1.score) {
-          winnerPvP = tempOneSpieler.getPlayerName();
+        if (playerOne.get(0).score > COMLeicht.get(0).score) {
+          winnerPvP = playerOne.get(0).getPlayerName();
           gameScreen = 5;
-        } else if (tempCOM1.score > tempOneSpieler.score) {
-          winnerPvP = tempCOM1.getPlayerName();
+        } else if (COMLeicht.get(0).score > playerOne.get(0).score) {
+          winnerPvP = COMLeicht.get(0).getPlayerName();
           gameScreen = 5;
         } else {
           winnerPvP = "Keiner";
@@ -835,16 +815,13 @@ void check_Play_vs_COM1Winner () {
 
 void check_Play_vs_COM2Winner () {
   
-  PlayerOne tempOneSpieler = playerOne.get(0);
-  COMMittel tempCOM2 = COMMittel.get(0);
-  
-  if (tempOneSpieler.score + tempCOM2.score == gesamtScore) {  
+  if (playerOne.get(0).score + COMMittel.get(0).score == gesamtScore) {  
 
-        if (tempOneSpieler.score > tempCOM2.score) {
-          winnerPvP = tempOneSpieler.getPlayerName();
+        if (playerOne.get(0).score > COMMittel.get(0).score) {
+          winnerPvP = playerOne.get(0).getPlayerName();
           gameScreen = 5;
-        } else if (tempCOM2.score > tempOneSpieler.score) {
-          winnerPvP = tempCOM2.getPlayerName();
+        } else if (COMMittel.get(0).score > playerOne.get(0).score) {
+          winnerPvP = COMMittel.get(0).getPlayerName();
           gameScreen = 5;
         } else {
           winnerPvP = "Keiner";
@@ -855,16 +832,13 @@ void check_Play_vs_COM2Winner () {
 
 void check_Play_vs_COM3Winner() {
   
-  PlayerOne tempOneSpieler = playerOne.get(0);
-  COMSchwer tempCOM3 = COMSchwer.get(0);
-  
-  if (tempOneSpieler.score + tempCOM3.score == gesamtScore) {  
+  if (playerOne.get(0).score + COMSchwer.get(0).score == gesamtScore) {  
 
-        if (tempOneSpieler.score > tempCOM3.score) {
-          winnerPvP = tempOneSpieler.getPlayerName();
+        if (playerOne.get(0).score > COMSchwer.get(0).score) {
+          winnerPvP = playerOne.get(0).getPlayerName();
           gameScreen = 5;
-        } else if (tempCOM3.score > tempOneSpieler.score) {
-          winnerPvP = tempCOM3.getPlayerName();
+        } else if (COMSchwer.get(0).score > playerOne.get(0).score) {
+          winnerPvP = COMSchwer.get(0).getPlayerName();
           gameScreen = 5;
         } else {
           winnerPvP = "Keiner";
