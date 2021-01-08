@@ -1,10 +1,15 @@
-class PlayerOne extends Spieler {
+class Player extends Spieler {
   boolean isHuman = true;
   int score = 0;
   
-  boolean turn = true;
+  boolean turn;
   
-  color playerColor = #83C5BE;
+  color playerColor;
+
+  Player (boolean turn, color playerColor) {
+    this.turn = turn;
+    this.playerColor = playerColor;
+  }
 
   String getPlayerName () {
     return "Player 1";
