@@ -23,10 +23,8 @@ class COMSchwer extends Spieler {
     }
     
     if (primeNumbers.size() != 0) {
-      println("COM3 wählt: " + str(primeNumbers.max()));
       return primeNumbers.max();
     } else if (numbers.length >= 1) {
-      println("COM3 wählt: " + str(numbers[numbers.length - 1]));
       return numbers[numbers.length - 1];
     } else {
       return 0;
