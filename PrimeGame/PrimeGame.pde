@@ -10,8 +10,10 @@
 // 6: Game Screen gegen Person
 // 7: Game-Over Screen gegen Person
 
-import processing.sound.*;
-SoundFile song;
+import ddf.minim.*;
+
+Minim minim;
+AudioPlayer playerBackground;
 
 int gameScreen = 0;
 
@@ -51,8 +53,9 @@ ArrayList<COMSchwer> COMSchwer = new ArrayList();
 void setup () {
   
   // load music
-  song = new SoundFile(this, "music.mp3");
-  song.loop();
+  minim = new Minim (this);
+  playerBackground = minim.loadFile("music.mp3");
+  playerBackground.loop();
   
   size(500, 500);
 
